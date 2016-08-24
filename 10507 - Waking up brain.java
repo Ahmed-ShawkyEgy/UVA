@@ -9,8 +9,6 @@ public class Main {
 	{
 		Queue<Integer> q = new LinkedList<Integer>();
 		q.add(s);
-		ArrayList<Area>[] adjj = adj;
-		HashMap<Character,Integer>mapp = map;
 		boolean found = false;
 		boolean[] taken = new boolean[adj.length];
 		taken[s] = true;
