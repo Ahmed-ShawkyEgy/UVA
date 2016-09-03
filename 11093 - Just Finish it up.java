@@ -58,10 +58,4 @@ public class Main {
 		}		
 		out.flush();
 	}
-	public static void clone(int [] arr1,int [] arr2)
-	{
-		for (int i = 0; i < arr2.length; i++) {
-			arr1[i] = arr2[i];
-		}
-	}
 }
