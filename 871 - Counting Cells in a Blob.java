@@ -2,7 +2,7 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.io.*;
 
-public class CountingCellsInABlob {
+public class Main {
 	static int[][] arr;
 	static int[] ii=  {1,-1,0,0,1,1,-1,-1};
 	static int[] jj = {0,0,1,-1,1,-1,1,-1};
