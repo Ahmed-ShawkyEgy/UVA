@@ -1,8 +1,14 @@
-import java.util.*;
-import java.io.*;
-import java.math.BigInteger;
-public class Main {
-	public static void main(String[] args) throws Throwable {
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.StringTokenizer;
+
+public class Main2{
+	public static void main(String[] args) throws Throwable
+	{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		PrintWriter out = new PrintWriter(System.out);
 		int t = Integer.parseInt(br.readLine());
@@ -10,36 +16,23 @@ public class Main {
 		{
 			int n = Integer.parseInt(br.readLine());
 			int p = Integer.parseInt(br.readLine());
+			int[] arr = new int[p];
+			for (int i = 0; i < arr.length; i++)
+				arr[i] = Integer.parseInt(br.readLine());
 			int ans = 0;
-			boolean[] taken = new boolean[n+1];
-			for (int i = 0; i < p; i++)
+			for(int i = 1;i<=n;i++)
 			{
-				int h = Integer.parseInt(br.readLine());
-				int counter = 0;
-				int day =-1;
-				int ind=-1;
-				for (int j = 0; j < n; j++)
-				{
-					day++;day%=7;
-					counter++;
-					ind++;
-					if(counter==h)
+				if((i+1)%7==0 || (i)%7==0) // friday or Sat
+					continue;
+				for(int j = 0;j<p;j++)
+					if(i%arr[j]==0)
 					{
-						counter=0;
-						if(day!=5 && day!=6)
-						{
-							taken[ind] = true;
-						}
+						ans++;
+						break;
 					}
-				}
 			}
-			for (int j =1 ; j < taken.length; j++) {
-				if(taken[j])
-					ans++;
-			}
-			System.out.println(ans);
-			
-		}		
+			out.append(ans+"\n");
+		}
 		out.flush();
 	}
 }
