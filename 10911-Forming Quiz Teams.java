@@ -1,80 +1,62 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.DecimalFormat;
-import java.util.*;
-import java.io.*;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 
 public class Main {
-	static double[] mem;	
-	static int[][] arr;
-	static int n; // Assume n = n<<1
-	static int count = 1;
+	static int n;
+	static double memo[];
+	static int [][] arr;
+	public static double dist(int i,int j)
+	{
+		int x = arr[i][0] - arr[j][0];
+		int y = arr[i][1] - arr[j][1];
+		return Math.sqrt((x*x)+(y*y));
+	}
 	public static double dp(int mask)
 	{
-		if(mem[mask]!=-1)
-			return mem[mask];
 		if(mask==(1<<n)-1)
 			return 0;
-		double ans = (int) 1e9;
-		for(int i =0;i<arr.length;i++)
-		{			
-			if(!isOne(i, mask))
-			{
-				int cur = put(i,mask);
-				for(int j = 0;j<arr.length;j++)
-				{
-					if(!isOne(j, cur))
+		if(memo[mask]>=0)
+			return memo[mask];
+		double ans = Double.MAX_VALUE;
+		for (int i = 0; i < arr.length; i++) 
+			if((mask&(1<<i))==0) // i'th person Not taken
+				for (int j = i+1; j < arr.length; j++) 
+					if((mask&(1<<j))==0) // j'th person Not taken
 					{
-						int x = put(j,cur);
-						double tmp = Math.abs(arr[i][0]-arr[j][0]);
-						tmp *=tmp;
-						int tmp2=Math.abs(arr[i][1]-arr[j][1]);
-						tmp2 *=tmp2;
-						tmp+=tmp2;
-						tmp = Math.sqrt(tmp);
-						ans = Math.min(ans, tmp + dp(x));
+						int newMask = mask | (1<<i) | (1<<j); // Mark both persons as taken
+						ans = Math.min(ans, dist(i,j) + dp(newMask));
 					}
-				}
-			}
-		}
-		return mem[mask] = ans;
+		return memo[mask] = ans;
 	}
-	public static void main(String[] args) throws IOException
-    {		
+	public static void main(String args[]) throws IOException
+	{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		PrintWriter out = new PrintWriter(System.out);
-		mem = new double[1<<18];
+		StringBuilder sb = new StringBuilder();
 		int cases = 1;
 		DecimalFormat f = new DecimalFormat("#0.00");
 		while(true)
 		{
-			n = Integer.parseInt(br.readLine());
-			if(n==0)break;
-			Arrays.fill(mem, -1);
-			n<<=1;
+			n = Integer.parseInt(br.readLine().trim()) << 1;
+			if(n==0)
+				break;
 			arr = new int[n][2];
-			for(int i =0;i<n;i++)
+			for (int i = 0; i < n; i++) 
 			{
 				StringTokenizer st = new StringTokenizer(br.readLine());
 				st.nextToken();
-				int x = Integer.parseInt(st.nextToken());
-				int y = Integer.parseInt(st.nextToken());
-				arr[i][0] = x;  arr[i][1] = y;
+				arr[i][0] = Integer.parseInt(st.nextToken());
+				arr[i][1] = Integer.parseInt(st.nextToken());
 			}
-			out.append("Case "+cases++ +": ");
-			double ans = dp(0);
-			out.append(f.format(ans)+"\n");
+			memo = new double[(1<<n)+1];
+			Arrays.fill(memo, -1);
+			sb.append("Case "+cases+++": "+f.format(dp(0))+"\n");
 		}
-		out.flush();
-    }
-	public static boolean isOne(int ind,int mask)
-	{
-		return ((1<<ind)&mask) !=0;
+		System.out.print(sb);
 	}
-	public static int take(int ind,int mask)
-	{
-		return mask^(1<<ind);
-	}
-	public static int put(int ind,int mask)
-	{
-		return mask | (1<<ind);
-	}
+	
 }
