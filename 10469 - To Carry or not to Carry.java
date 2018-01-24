@@ -8,44 +8,16 @@ import java.util.StringTokenizer;
 
 public class Main {
 	
-	static int[] add(int[] a,int[] b)
-	{
-		int[] res = new int[33];
-		for (int i = 0; i < b.length; i++) 
-			res[i] = a[i] ^ b[i];
-		
-		return res;
-	}
 	
-	
-	static long toDec(int[] arr)
-	{
-		long res = 0;
-		for(int i = arr.length-1;i>=0;--i)
-			res = (res*2) + arr[i];
-		
-		return res;
-	}
-	
-	
-	static int[] toBinary(long n)
-	{
-		int[] arr = new int[33];
-		for (int i = 0; i < arr.length && n>0; i++,n/=2) 
-			arr[i] = (int) (n%2);
-		
-		return arr;
-	}
 	
 	public static void main(String[] args) throws IOException 
 	{
 		Scanner sc = new Scanner(System.in);
 		StringBuilder sb = new StringBuilder();
 		while(sc.ready())
-			sb.append(toDec(add(toBinary(sc.nextLong()),toBinary(sc.nextLong()) )) + "\n");
+			sb.append((sc.nextLong()^sc.nextLong())+"\n");
 		
 		System.out.print(sb);
-		
 	}
 	
 	static class Scanner 
